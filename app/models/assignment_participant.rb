@@ -205,6 +205,13 @@ class AssignmentParticipant < Participant
       user = ImportFileHelper.create_new_user(attributes, session)
       raise ImportError, "The assignment with id \"#{id}\" was not found." if Assignment.find(id).nil?
     end
+    # Checking if the instance returned by the previous method is of User or not
+    if user.instance_of? User
+      # Generating a random password which is used as default password by the user
+      password = user.reset_password
+      # Sending the mail to user with the details to login
+      MailerHelper.send_mail_to_user(user, "Your Expertiza account has been created.", "user_welcome", password).deliver
+    end
     return if AssignmentParticipant.exists?(user_id: user.id, parent_id: id)
     new_part = AssignmentParticipant.create(user_id: user.id, parent_id: id)
     new_part.set_handle
