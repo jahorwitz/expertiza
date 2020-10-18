@@ -233,16 +233,15 @@ class AssignmentParticipant < Participant
 
       #create_new_user method will create new user with values present in attribute.
       user = ImportFileHelper.create_new_user(attributes, session)
-
-    end
-    raise ImportError, "The assignment with id \"#{id}\" was not found." if Assignment.find(id).nil?
+    
     # Checking if the instance returned by the previous method is of User or not
-    if user.instance_of? User
+    elsif user.instance_of? User
       # Generating a random password which is used as default password by the user
       password = user.reset_password
       # Sending the mail to user with the details to login
       MailerHelper.send_mail_to_user(user, "Your Expertiza account has been created.", "user_welcome", password).deliver
     end
+    raise ImportError, "The assignment with id \"#{id}\" was not found." if Assignment.find(id).nil?
     return if AssignmentParticipant.exists?(user_id: user.id, parent_id: id)
 
     #if user is not already a participant then, user will be added to the assignment.
