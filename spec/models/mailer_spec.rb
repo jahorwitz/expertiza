@@ -21,7 +21,6 @@ describe 'Tests mailer' do
     expect(email.from[0]).to eq("expertiza.development@gmail.com")
     expect(email.to[0]).to eq('expertiza.development@gmail.com')
     expect(email.subject).to eq('Test')
-
   end
 
   it 'should be able to send an email using generic message' do
@@ -47,7 +46,7 @@ describe 'Tests mailer' do
       expect(mail.subject).to eq("Test")
       expect(mail.body).to eq(email.body)
     end
-  end
+  
 
   it 'should send email to required email address with proper content ' do
     # Send the email, then test that it got queued
