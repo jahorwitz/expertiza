@@ -196,7 +196,7 @@ describe Response do
         allow(AssignmentTeam).to receive(:find).with(2).and_return(team)
         allow(team).to receive(:participants).and_return({first: {user_id: 2}})
         allow(User).to receive(:find).with(2).and_return(participant.user)
-        allow(participant)to receive(:parent_id).and_return(3)
+        allow(participant).to receive(:parent_id).and_return(3)
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
         allow(assignment).to receive(:instructor).and_return({email: 'tluo@ncsu.edu'})
         allow(response).to receive(:total_score).and_return(96)
