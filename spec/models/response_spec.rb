@@ -184,8 +184,8 @@ describe Response do
 
   describe '#notify_instructor_on_difference' do
     before(:each) do
-      allow(ReviewResponseMap).to receive(:reviewer_id).and_return(1)
-      allow(ReviewResponseMap).to receive(:reviewee_id).and_return(2)
+      allow(review_response_map).to receive(:reviewer_id).and_return(1)
+      allow(review_response_map).to receive(:reviewee_id).and_return(2)
     end
 
     context 'when a review score is outside the acceptable range' do
