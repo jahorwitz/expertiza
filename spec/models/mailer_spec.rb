@@ -1,4 +1,8 @@
 describe 'Tests mailer' do
+  let(:assignment) {
+    build(:assignment, name: "test_assignment")
+  }
+
   it 'should send email to required email address with proper content ' do
     # Send the email, then test that it got queued
     email = Mailer.sync_message(
@@ -19,9 +23,6 @@ describe 'Tests mailer' do
   end
 
   it 'should send email to required email address when score is outside acceptable value ' do
-    let(:assignment) {
-      build(:assignment, name: "test_assignment")
-    }
     # Send the email, then test that it got queued
     email = Mailer.notify_grade_conflict_message(
       to: 'tluo@ncsu.edu',
