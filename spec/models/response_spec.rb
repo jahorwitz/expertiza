@@ -188,32 +188,34 @@ describe Response do
       allow(ReviewResponseMap).to receive(:reviewee_id).and_return(2)
     end
 
-    it 'sends notification to assignment instructor' do
-      allow(AssignmentParticipant).to receive(:find).with(1).and_return(participant)
-      allow(participant).to receive(:user_id).and_return(2)
-      allow(User).to receive(:find).with(2).and_return(participant.user)
-      allow(AssignmentTeam).to receive(:find).with(2).and_return(team)
-      allow(team).to receive(:participants).and_return({first: {user_id: 2}})
-      allow(User).to receive(:find).with(2).and_return(participant.user)
-      allow(participant)to receive(:parent_id).and_return(3)
-      allow(Assignment).to receive(:find).with(3).and_return(assignment)
-      allow(assignment).to receive(:instructor).and_return({email: 'tluo@ncsu.edu'})
-      allow(response).to receive(:total_score).and_return(96)
-      allow(response).to receive(:maximum_score).and_return(100)
-      expect(Mailer).to receive(:notify_instructor_on_difference).with(
-        to: 'tluo@ncsu.edu',
-        subject: 'Expertiza Notification: A review score is outside the acceptable range',
-        body: {
-          reviewer_name: 'no one',
-          type: 'review',
-          reviewee_name: 'no one',
-          new_score: 0.96,
-          assignment: assignment,
-          conflicting_response_url: 'https://expertiza.ncsu.edu/response/view?id=1',
-          summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=2',
-          assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
-        }
-      )
+    context 'when a review score is outside the acceptable range' do
+      it 'sends notification to assignment instructor' do
+        allow(AssignmentParticipant).to receive(:find).with(1).and_return(participant)
+        allow(participant).to receive(:user_id).and_return(2)
+        allow(User).to receive(:find).with(2).and_return(participant.user)
+        allow(AssignmentTeam).to receive(:find).with(2).and_return(team)
+        allow(team).to receive(:participants).and_return({first: {user_id: 2}})
+        allow(User).to receive(:find).with(2).and_return(participant.user)
+        allow(participant)to receive(:parent_id).and_return(3)
+        allow(Assignment).to receive(:find).with(3).and_return(assignment)
+        allow(assignment).to receive(:instructor).and_return({email: 'tluo@ncsu.edu'})
+        allow(response).to receive(:total_score).and_return(96)
+        allow(response).to receive(:maximum_score).and_return(100)
+        expect(Mailer).to receive(:notify_instructor_on_difference).with(
+          to: 'tluo@ncsu.edu',
+          subject: 'Expertiza Notification: A review score is outside the acceptable range',
+          body: {
+            reviewer_name: 'no one',
+            type: 'review',
+            reviewee_name: 'no one',
+            new_score: 0.96,
+            assignment: assignment,
+            conflicting_response_url: 'https://expertiza.ncsu.edu/response/view?id=1',
+            summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=2',
+            assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
+          }
+        )
+      end
     end
   end
 
