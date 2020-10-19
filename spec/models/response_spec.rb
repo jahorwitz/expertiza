@@ -194,7 +194,7 @@ describe Response do
         allow(participant).to receive(:user_id).and_return(2)
         allow(User).to receive(:find).with(2).and_return(participant.user)
         allow(AssignmentTeam).to receive(:find).with(2).and_return(team)
-        allow(team).to receive(:participants).and_return({first: {user_id: 2}})
+        allow(team).to receive(:participants).and_return([participant])
         allow(User).to receive(:find).with(2).and_return(participant.user)
         allow(participant).to receive(:parent_id).and_return(3)
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
