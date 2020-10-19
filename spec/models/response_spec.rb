@@ -200,7 +200,12 @@ describe Response do
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
         allow(response).to receive(:total_score).and_return(96)
         allow(response).to receive(:maximum_score).and_return(100)
-        allow(Mailer).to receive(:notify_grade_conflict_message).and_return(deliver_now: "sent"})
+        allow(Mailer).to receive(:notify_grade_conflict_message).and_return(
+          Mailer.mail(
+            subject: 'Expertiza Notification: A review score is outside the acceptable range',
+            to: 'tluo@ncsu.edu'
+          )
+        )
         expect(Mailer).to receive(:notify_grade_conflict_message).with(
           to: 'tluo@ncsu.edu',
           subject: 'Expertiza Notification: A review score is outside the acceptable range',
@@ -215,7 +220,6 @@ describe Response do
             assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
           }
         )
-        expect(response.notify_instructor_on_difference).to eq("sent")
       end
     end
   end
