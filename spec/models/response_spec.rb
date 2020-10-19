@@ -14,7 +14,6 @@ describe Response do
   let(:questionnaire2) { ReviewQuestionnaire.new(id: 2, questions: [question2], max_question_score: 5) }
   let(:tag_prompt) {TagPrompt.new(id: 1, prompt: "prompt")}
   let(:tag_prompt_deployment) {TagPromptDeployment.new(id: 1, tag_prompt_id: 1, assignment_id: 1, questionnaire_id: 1, question_type: 'Criterion')}
-  let(:notification) { build(:notification, :deliver_now => "sent")}
   before(:each) do
     allow(response).to receive(:map).and_return(review_response_map)
   end
@@ -201,7 +200,7 @@ describe Response do
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
         allow(response).to receive(:total_score).and_return(96)
         allow(response).to receive(:maximum_score).and_return(100)
-        allow(Mailer).to receive(:notify_grade_conflict_message).and_return(notification)
+        allow(Mailer).to receive(:notify_grade_conflict_message).and_return({:deliver_now => "sent"})
         expect(Mailer).to receive(:notify_grade_conflict_message).with(
           to: 'tluo@ncsu.edu',
           subject: 'Expertiza Notification: A review score is outside the acceptable range',
