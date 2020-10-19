@@ -14,6 +14,20 @@ describe Response do
   let(:questionnaire2) { ReviewQuestionnaire.new(id: 2, questions: [question2], max_question_score: 5) }
   let(:tag_prompt) {TagPrompt.new(id: 1, prompt: "prompt")}
   let(:tag_prompt_deployment) {TagPromptDeployment.new(id: 1, tag_prompt_id: 1, assignment_id: 1, questionnaire_id: 1, question_type: 'Criterion')}
+  let(:mail) { Mailer.notify_grade_conflict_message(
+    to: 'tluo@ncsu.edu',
+    subject: 'Expertiza Notification: A review score is outside the acceptable range',
+    body: {
+      reviewer_name: 'no one',
+      type: 'review',
+      reviewee_name: 'no one',
+      new_score: 0.96,
+      assignment: assignment,
+      conflicting_response_url: 'https://expertiza.ncsu.edu/response/view?id=1',
+      summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=2',
+      assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
+    }
+  )}
   before(:each) do
     allow(response).to receive(:map).and_return(review_response_map)
   end
@@ -200,12 +214,7 @@ describe Response do
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
         allow(response).to receive(:total_score).and_return(96)
         allow(response).to receive(:maximum_score).and_return(100)
-        allow(Mailer).to receive(:notify_grade_conflict_message).and_return(
-          Mailer.mail(
-            subject: 'Expertiza Notification: A review score is outside the acceptable range',
-            to: 'tluo@ncsu.edu'
-          )
-        )
+        allow(Mailer).to receive(:notify_grade_conflict_message).and_return(mail)
         expect(Mailer).to receive(:notify_grade_conflict_message).with(
           to: 'tluo@ncsu.edu',
           subject: 'Expertiza Notification: A review score is outside the acceptable range',
