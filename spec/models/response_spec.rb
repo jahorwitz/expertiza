@@ -200,9 +200,8 @@ describe Response do
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
         allow(response).to receive(:total_score).and_return(96)
         allow(response).to receive(:maximum_score).and_return(100)
-
-        response.notify_instructor_on_difference
         expect(Mailer).to receive(:notify_instructor_on_difference)
+        response.notify_instructor_on_difference
         # expect(Mailer).to receive(:notify_instructor_on_difference).with(
         #   to: 'tluo@ncsu.edu',
         #   subject: 'Expertiza Notification: A review score is outside the acceptable range',
