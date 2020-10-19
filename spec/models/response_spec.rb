@@ -182,6 +182,41 @@ describe Response do
     end
   end
 
+  describe '#notify_instructor_on_difference' do
+    before(:each) do
+      allow(ReviewResponseMap).to receive(:reviewer_id).and_return(1)
+      allow(ReviewResponseMap).to receive(:reviewee_id).and_return(2)
+    end
+
+    it 'sends notification to assignment instructor' do
+      allow(AssignmentParticipant).to receive(:find).with(1).and_return(participant)
+      allow(participant).to receive(:user_id).and_return(2)
+      allow(User).to receive(:find).with(2).and_return(participant.user)
+      allow(AssignmentTeam).to receive(:find).with(2).and_return(team)
+      allow(team).to receive(:participants).and_return({first: {user_id: 2}})
+      allow(User).to receive(:find).with(2).and_return(participant.user)
+      allow(participant)to receive(:parent_id).and_return(3)
+      allow(Assignment).to receive(:find).with(3).and_return(assignment)
+      allow(assignment).to receive(:instructor).and_return({email: 'tluo@ncsu.edu'})
+      allow(response).to receive(:total_score).and_return(96)
+      allow(response).to receive(:maximum_score).and_return(100)
+      expect(Mailer).to receive(:notify_instructor_on_difference).with(
+        to: 'tluo@ncsu.edu',
+        subject: 'Expertiza Notification: A review score is outside the acceptable range',
+        body: {
+          reviewer_name: 'no one',
+          type: 'review',
+          reviewee_name: 'no one',
+          new_score: 0.96,
+          assignment: assignment,
+          conflicting_response_url: 'https://expertiza.ncsu.edu/response/view?id=1',
+          summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=2',
+          assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
+        }
+      )
+    end
+  end
+
   describe '.avg_scores_and_count_for_prev_reviews' do
     context 'when current response is not in current response array' do
       it 'returns the average score and count of previous reviews' do
