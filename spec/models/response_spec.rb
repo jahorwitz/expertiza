@@ -225,7 +225,7 @@ describe Response do
             new_score: 0.96,
             assignment: assignment,
             conflicting_response_url: 'https://expertiza.ncsu.edu/response/view?id=1',
-            summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=2',
+            summary_url: 'https://expertiza.ncsu.edu/grades/view_team?id=1',
             assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
           }
         )
