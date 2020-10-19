@@ -229,6 +229,7 @@ describe Response do
             assignment_edit_url: 'https://expertiza.ncsu.edu/assignments/1/edit'
           }
         )
+        response.notify_instructor_on_difference
       end
     end
   end
