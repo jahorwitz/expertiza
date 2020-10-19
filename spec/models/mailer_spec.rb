@@ -58,8 +58,6 @@ describe 'Tests mailer' do
 
     expect(email.from[0]).to eq("expertiza.development@gmail.com")
     expect(email.to[0]).to eq('expertiza.development@gmail.com')
-    expect(email.bcc[0]).to eq('expertiza.development@gmail.com')
-    expect(email.subject).to eq("Suggested topic 'Test' has been approved")
     expect(email.subject).to eq('Test')
   end
 end
