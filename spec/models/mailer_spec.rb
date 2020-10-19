@@ -46,7 +46,7 @@ describe 'Tests mailer' do
       expect(mail.subject).to eq("Test")
       expect(mail.body).to eq(email.body)
     end
-  
+  end
 
   it 'should send email to required email address with proper content ' do
     # Send the email, then test that it got queued
