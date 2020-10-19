@@ -19,14 +19,15 @@ describe 'Tests mailer' do
   end
 
   it 'should send email to required email address when score is outside acceptable value ' do
+    let(:assignment) {
+      build(:assignment, name: "test_assignment")
+    }
     # Send the email, then test that it got queued
     email = Mailer.notify_grade_conflict_message(
       to: 'tluo@ncsu.edu',
       subject: "Test",
       body: {
-        assignment: {
-          name: 'assignment'
-        },
+        assignment: assignment,
         type: 'review',
         reviewer_name: 'Reviewer',
         reviewee_name: 'Reviewee',
