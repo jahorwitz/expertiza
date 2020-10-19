@@ -1,7 +1,7 @@
 describe Response do
   let(:participant) { build(:participant, id: 1, user: build(:student, name: 'no name', fullname: 'no one')) }
   let(:participant2) { build(:participant, id: 2) }
-  let(:assignment) { build(:assignment, id: 1, name: 'Test Assgt') }
+  let(:assignment) { build(:assignment, id: 1, name: 'Test Assgt', instructor: build(:instructor, email: 'tluo@ncsu.edu')) }
   let(:team) { build(:assignment_team) }
   let(:signed_up_team) { build(:signed_up_team, team_id: team.id) }
   let(:review_response_map) { build(:review_response_map, assignment: assignment, reviewer: participant, reviewee: team) }
@@ -198,7 +198,6 @@ describe Response do
         allow(User).to receive(:find).with(2).and_return(participant.user)
         allow(participant).to receive(:parent_id).and_return(3)
         allow(Assignment).to receive(:find).with(3).and_return(assignment)
-        allow(assignment).to receive(:instructor).and_return({email => 'tluo@ncsu.edu'})
         allow(response).to receive(:total_score).and_return(96)
         allow(response).to receive(:maximum_score).and_return(100)
 
