@@ -24,7 +24,9 @@ describe 'Tests mailer' do
       to: 'tluo@ncsu.edu',
       subject: "Test",
       body: {
-        assignment: 'assignment',
+        assignment: {
+          name: 'assignment'
+        },
         type: 'review',
         reviewer_name: 'Reviewer',
         reviewee_name: 'Reviewee',
